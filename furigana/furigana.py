@@ -1,10 +1,9 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import sys
-import MeCab
 import re
-import jaconv
 import unicodedata
+import pykakasi
 
 
 def is_kanji(ch):
@@ -75,61 +74,45 @@ def split_okurigana(text, hiragana):
 
 
 def split_furigana(text):
-    """ MeCab has a problem if used inside a generator ( use yield instead of return  )
-    The error message is:
-    ```
-    SystemError: <built-in function delete_Tagger> returned a result with an error set
-    ```
-    It seems like MeCab has bug in releasing resource
+    """ Change from MeCab to pykakasi
     """
-    mecab = MeCab.Tagger("-Ochasen")
-    mecab.parse('') # 空でパースする必要がある
-    node = mecab.parseToNode(text)
     ret = []
-
-    while node is not None:
-        origin = node.surface # もとの単語を代入
-        if not origin:
-            node = node.next
-            continue
-
-        # originが空のとき、漢字以外の時はふりがなを振る必要がないのでそのまま出力する
-        if origin != "" and any(is_kanji(_) for _ in origin):
-            kana = node.feature.split(",")[7] # 読み仮名を代入
-            hiragana = jaconv.kata2hira(kana)
-            for pair in split_okurigana(origin, hiragana):
+    kks = pykakasi.kakasi()
+    result = kks.convert(text)
+    for item in result:
+        if any(is_kanji(_) for _ in item['orig']):
+            for pair in split_okurigana(item['orig'], item['hira']):
                 ret += [pair]
         else:
-            if origin:
-                ret += [(origin,)]
-        node = node.next
+            ret += [(item['orig'],)]
     return ret
 
 
-def print_html(text):
+def to_html(text):
+    text2 = ""
     for pair in split_furigana(text):
         if len(pair)==2:
             kanji,hira = pair
-            print("<ruby><rb>{0}</rb><rt>{1}</rt></ruby>".
-                    format(kanji, hira), end='')
+            text2 += "<ruby><rb>{0}</rb><rt>{1}</rt></ruby>".format(kanji, hira)
         else:
-            print(pair[0], end='')
-    print('')
+            text2 += pair[0]
+    return text2
 
 
-def print_plaintext(text):
+def to_plaintext(text):
+    text2 = ""
     for pair in split_furigana(text):
         if len(pair)==2:
             kanji,hira = pair
-            print("%s(%s)" % (kanja,hira), end='')
+            text2 += "%s(%s)" % (kanja,hira)
         else:
-            print(pair[0], end='')
-    print('')
+            text2 += pair[0]
+    return text2
 
 
 def main():
     text = sys.argv[1]
-    print_html(text)
+    print(to_html(text))
 
 
 if __name__ == '__main__':
