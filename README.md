@@ -26,7 +26,7 @@ print_html('澱んだ街角で僕らは出会った')
 ### input
 ```
 from furigana.furigana import to_html
-to_html('お茶にお煎餅、よく合いますね')
+print(to_html('お茶にお煎餅、よく合いますね'))
 ```
 
 ### output
