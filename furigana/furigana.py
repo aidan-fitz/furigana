@@ -109,10 +109,15 @@ def to_plaintext(text):
             text2 += pair[0]
     return text2
 
+def print_plaintext(text):
+    print(to_plaintext(text))
+ 
+def print_html(text):
+    print(to_html(text))
 
 def main():
     text = sys.argv[1]
-    print(to_html(text))
+    print_html(text)
 
 
 if __name__ == '__main__':
