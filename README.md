@@ -1,7 +1,7 @@
 # furigana
 Generate furigana(振り仮名) from Japanese
 
-It uses pykakasi(http://taku910.github.io/mecab/) (a Natural Language Toolkit) to split Japanese into words, and superscript it with furigana (振り仮名).
+It uses pykakasi(http://kakasi.namazu.org/) (a Natural Language Toolkit) to split Japanese into words, and superscript it with furigana (振り仮名).
 
 ## Example:
 ### input
@@ -25,8 +25,8 @@ print_html('澱んだ街角で僕らは出会った')
 
 ### input
 ```
-from furigana.furigana import print_html
-print_html('お茶にお煎餅、よく合いますね')
+from furigana.furigana import to_html
+to_html('お茶にお煎餅、よく合いますね')
 ```
 
 ### output
@@ -48,12 +48,10 @@ $ python3 furigana.py '活版印刷の流れを汲む出版作業では'
 ```
 
 # Dependency
-See https://pypi.python.org/pypi/mecab-python3/0.7 <br/>
+See https://pypi.org/project/pykakasi/2.0.0/ <br/>
 run below commands on ubuntu 
 ```
-sudo apt-get install libmecab-dev mecab mecab-ipadic-utf8
-sudo -H pip3 install mecab-python3
-sudo -H pip3 install jaconv
+sudo pip install six semidbm pykakasi 
 ```
 
 # Conflict with Anaconda Python
