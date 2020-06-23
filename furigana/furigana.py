@@ -57,7 +57,7 @@ def split_okurigana(text, hiragana):
                 break
             else:
                 if is_kanji(char):
-                    if ret[1] and hira == ret[1][-1]:
+                    if ret[1] and hira == ret[1][-1] and len(text) > 1:
                         text.pop(0)
                         yield ret[0], ''.join(ret[1][:-1])
                         yield char, hira
