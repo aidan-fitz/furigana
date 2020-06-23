@@ -62,7 +62,10 @@ def split_okurigana(text, hiragana):
                         yield ret[0], ''.join(ret[1][:-1])
                         yield char, hira
                         ret = ('', [])
-                        text.pop(0)
+                        try:
+                            text.pop(0)
+                        except e:
+                            print("Problem: {} with {}".format(e,text))
                     else:
                         ret = (char, ret[1]+[hira])
                 else:
