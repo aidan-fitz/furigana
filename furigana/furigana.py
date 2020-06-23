@@ -78,13 +78,14 @@ def split_furigana(text):
     """
     ret = []
     kks = pykakasi.kakasi()
-    result = kks.convert(text)
+    result = kks.convert(text + '人')
     for item in result:
         if any(is_kanji(_) for _ in item['orig']):
             for pair in split_okurigana(item['orig'], item['hira']):
                 ret += [pair]
         else:
             ret += [(item['orig'],)]
+    ret.pop()
     return ret
 
 
