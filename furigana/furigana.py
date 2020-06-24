@@ -7,11 +7,17 @@ import pykakasi
 
 
 def is_kanji(ch):
-    return 'CJK UNIFIED IDEOGRAPH' in unicodedata.name(ch)
+    try:
+        return 'CJK UNIFIED IDEOGRAPH' in unicodedata.name(ch)
+    except:
+        return False
 
 
 def is_hiragana(ch):
-    return 'HIRAGANA' in unicodedata.name(ch)
+    try:
+        return 'HIRAGANA' in unicodedata.name(ch)
+    except:
+        return False
 
 
 def split_okurigana_reverse(text, hiragana):
