@@ -114,7 +114,7 @@ def to_plaintext(text):
     for pair in split_furigana(text):
         if len(pair)==2:
             kanji,hira = pair
-            text2 += "%s(%s)" % (kanja,hira)
+            text2 += "%s(%s)" % (kanji,hira)
         else:
             text2 += pair[0]
     return text2
